@@ -54,6 +54,11 @@ There is no single conversion that applies to every shelf, because it depends on
 
 The defaults match a common **2m × 2m × 0.6m boltless shelving bay**: 4 shelves at 200kg UDL each and 800kg per bay. All values can be changed to match any shelving unit's label.
 
+## Guides
+
+- [UDL vs point load on shelving](docs/udl-vs-point-load.md)
+- [How to calculate shelf weight capacity: a worked example](docs/how-to-calculate-shelf-weight-capacity.md)
+
 ## Run it locally
 
 No build step and no dependencies. Download `index.html` and open it in a browser. Inputs are saved in the browser's local storage only; nothing is sent anywhere.
