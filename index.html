@@ -74,6 +74,8 @@ button{font:inherit;cursor:pointer;border-radius:8px;min-height:44px}
 .stat{background:var(--bg);border-radius:8px;padding:14px}
 .stat b{display:block;font-size:1.5rem}
 .stat small{color:var(--muted)}
+.cta p{margin:0 0 14px}.cta .btn{display:inline-flex;align-items:center;text-decoration:none;min-height:44px;border-radius:8px}
+.faq h3{font-size:1.05rem;margin:18px 0 6px}.faq p{margin:0}
 .notes{margin:12px 0 0;padding-left:20px}
 .notes li{margin-bottom:6px}
 .alert{border-radius:8px;padding:12px 14px;margin-top:12px}
@@ -86,6 +88,62 @@ footer{max-width:960px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
 footer a,main a{color:var(--accent)}
 @media (max-width:560px){.row{grid-template-columns:1fr 70px 44px}.row .kg{grid-column:1/3}.row .x{grid-row:1;grid-column:3}}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How much weight can a shelf hold?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It depends on the rating printed on the shelf's label or listing, and that rating normally assumes the weight is spread evenly (UDL). Boltless steel shelving is often rated somewhere between 100kg and 300kg per shelf. The RackingOutlet 2m Full Bay, for example, is rated at 200kg per shelf and 800kg for the whole bay. Wall-mounted shelves are different again: their limit depends as much on the brackets, fixings and wall as on the shelf itself."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do you calculate how much weight a shelf can hold?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Add up the weight of everything planned for the shelf, then compare the total with the shelf's UDL rating. If most of the weight sits in one spot rather than across the full shelf, plan to a lower figure; this calculator uses half the rating as a cautious rule of thumb. Then add the shelves together and check the total against the bay rating, which is a separate limit."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does UDL mean in racking and shelving?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "UDL stands for uniformly distributed load: weight spread evenly across the whole shelf or beam. A 200kg UDL shelf is designed for 200kg laid across its full length and depth, not 200kg resting on one point in the middle."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do you convert a UDL rating to a point load?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "There is no single conversion that applies to every shelf, because it depends on the shelf's design, span and supports. Only the manufacturer can give a true point-load figure. Without one, treating a concentrated load as roughly half the UDL rating is a cautious working assumption, and that is the figure this calculator uses."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is a sensible garage shelf weight limit?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Use the rating on the shelving, then aim to stay below about 75% of it. Garages tend to collect heavy, dense items such as paint tins, tyres, tool cases and bags of cement, so the heaviest items belong on the bottom shelf, and tall units should be fixed to the wall."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is the bay rating the same as adding up every shelf?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Not always. Four shelves at 200kg each add up to 800kg, and on the RackingOutlet Full Bay the bay rating is also 800kg, but some shelving has a bay rating lower than the shelves combined. Both limits need checking, which is why the calculator shows them separately."
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <header>
@@ -122,6 +180,12 @@ footer a,main a{color:var(--accent)}
     <div id="alerts"></div>
   </section>
 
+  <section class="card cta" aria-labelledby="s-cta">
+    <h2 id="s-cta">Need heavy-duty shelving?</h2>
+    <p>RackingOutlet's 2m boltless shelving bay is rated at 200kg per shelf and 800kg per bay, assembles with a rubber mallet and is collected from Manchester or delivered.</p>
+    <a class="btn" href="https://rackingoutlet.co.uk/product/heavy-duty-metal-shelving-800kg-capacity/?utm_source=github&utm_medium=referral&utm_campaign=shelving_load_calculator&utm_content=result_cta">See the 800kg shelving</a>
+  </section>
+
   <section class="card" aria-labelledby="s-weights">
     <h2 id="s-weights">Typical item weights used</h2>
     <table id="weightTable"><thead><tr><th>Item</th><th>Approx. weight</th></tr></thead><tbody></tbody></table>
@@ -138,10 +202,25 @@ footer a,main a{color:var(--accent)}
       <li><strong>Leave headroom.</strong> Staying below about 75% of the rating allows for heavier-than-expected boxes.</li>
     </ul>
   </section>
+  <section class="card faq" aria-labelledby="s-faq">
+    <h2 id="s-faq">Shelf weight capacity: common questions</h2>
+    <h3>How much weight can a shelf hold?</h3>
+    <p>It depends on the rating printed on the shelf's label or listing, and that rating normally assumes the weight is spread evenly (UDL). Boltless steel shelving is often rated somewhere between 100kg and 300kg per shelf. The RackingOutlet 2m Full Bay, for example, is rated at 200kg per shelf and 800kg for the whole bay. Wall-mounted shelves are different again: their limit depends as much on the brackets, fixings and wall as on the shelf itself.</p>
+    <h3>How do you calculate how much weight a shelf can hold?</h3>
+    <p>Add up the weight of everything planned for the shelf, then compare the total with the shelf's UDL rating. If most of the weight sits in one spot rather than across the full shelf, plan to a lower figure; this calculator uses half the rating as a cautious rule of thumb. Then add the shelves together and check the total against the bay rating, which is a separate limit.</p>
+    <h3>What does UDL mean in racking and shelving?</h3>
+    <p>UDL stands for uniformly distributed load: weight spread evenly across the whole shelf or beam. A 200kg UDL shelf is designed for 200kg laid across its full length and depth, not 200kg resting on one point in the middle.</p>
+    <h3>How do you convert a UDL rating to a point load?</h3>
+    <p>There is no single conversion that applies to every shelf, because it depends on the shelf's design, span and supports. Only the manufacturer can give a true point-load figure. Without one, treating a concentrated load as roughly half the UDL rating is a cautious working assumption, and that is the figure this calculator uses.</p>
+    <h3>What is a sensible garage shelf weight limit?</h3>
+    <p>Use the rating on the shelving, then aim to stay below about 75% of it. Garages tend to collect heavy, dense items such as paint tins, tyres, tool cases and bags of cement, so the heaviest items belong on the bottom shelf, and tall units should be fixed to the wall.</p>
+    <h3>Is the bay rating the same as adding up every shelf?</h3>
+    <p>Not always. Four shelves at 200kg each add up to 800kg, and on the RackingOutlet Full Bay the bay rating is also 800kg, but some shelving has a bay rating lower than the shelves combined. Both limits need checking, which is why the calculator shows them separately.</p>
+  </section>
 </main>
 
 <footer>
-  <p>Free and open source (MIT licence). Built and maintained by <a href="https://rackingoutlet.co.uk/" rel="noopener">RackingOutlet</a>, a Manchester supplier of 800kg boltless shelving. Results are guidance only; always follow the manufacturer's rating and instructions.</p>
+  <p>Free and open source (MIT licence). Built and maintained by <a href="https://rackingoutlet.co.uk/?utm_source=github&utm_medium=referral&utm_campaign=shelving_load_calculator&utm_content=footer" rel="noopener">RackingOutlet</a>, a Manchester supplier of 800kg boltless shelving. Results are guidance only; always follow the manufacturer's rating and instructions.</p>
 </footer>
 
 <script>
