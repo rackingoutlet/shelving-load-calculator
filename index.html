@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shelving Load Calculator – Check Shelf Weight Capacity (kg)</title>
+<meta name="description" content="Free shelving load calculator. Add paint tins, storage boxes, tools or tyres to each shelf and check the total weight against the shelf and bay rating in kg. Works for boltless, garage and warehouse shelving.">
+<meta property="og:title" content="Shelving Load Calculator – Check Shelf Weight Capacity">
+<meta property="og:description" content="Add items to each shelf and see instantly whether the load stays within the shelf and bay weight rating.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rackingoutlet.github.io/shelving-load-calculator/">
+<meta property="og:image" content="https://rackingoutlet.github.io/shelving-load-calculator/screenshot.png">
+<link rel="canonical" href="https://rackingoutlet.github.io/shelving-load-calculator/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Shelving Load Calculator",
+  "description": "Free calculator that checks the weight on each shelf and on the whole bay against the manufacturer's UDL rating, with typical weights for paint tins, storage boxes, tools and tyres.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in the browser)",
+  "inLanguage": "en-GB",
+  "isAccessibleForFree": true,
+  "url": "https://rackingoutlet.github.io/shelving-load-calculator/",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+  "license": "https://opensource.org/licenses/MIT",
+  "creator": {
+    "@type": "Organization",
+    "name": "RackingOutlet",
+    "url": "https://rackingoutlet.co.uk/"
+  }
+}
+</script>
+<style>
+:root{
+  --bg:#f6f7f9;--surface:#fff;--ink:#14202e;--muted:#5a6675;--line:#dde2e8;
+  --navy:#14202e;--accent:#1f7a4d;--ok:#1f7a4d;--ok-bg:#e6f4ec;--warn:#a45d00;--warn-bg:#fdf1de;
+  --bad:#b42318;--bad-bg:#fdecea;--radius:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0f151d;--surface:#17202b;--ink:#e8edf2;--muted:#9aa7b5;--line:#2b3746;
+  --ok:#5fd19a;--ok-bg:#163326;--warn:#f0b35a;--warn-bg:#33270f;--bad:#ff8a80;--bad-bg:#3a1a18;--accent:#5fd19a}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--navy);color:#fff;padding:40px 16px 32px}
+header .wrap,main{max-width:960px;margin:0 auto}
+h1{font-size:clamp(1.75rem,4vw,2.5rem);line-height:1.15;margin:0 0 10px;text-wrap:balance}
+header p{margin:0;color:#c9d3de;max-width:640px}
+main{padding:24px 16px 48px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+h2{font-size:1.25rem;margin:0 0 14px}
+.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+label{display:block;font-size:.875rem;color:var(--muted);margin-bottom:4px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:44px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button{font:inherit;cursor:pointer;border-radius:8px;min-height:44px}
+.btn{background:var(--accent);color:#fff;border:0;padding:8px 14px;font-weight:600}
+@media (prefers-color-scheme:dark){.btn{color:#0f151d}}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);padding:8px 12px}
+.shelf{border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.shelf-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.shelf-head h3{margin:0;font-size:1.05rem}
+.row{display:grid;grid-template-columns:1fr 90px 110px 44px;gap:8px;align-items:end;margin-bottom:8px}
+.row .x{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.row .custom{grid-column:1/-1;display:none}
+.row.is-custom .custom{display:block}
+.meter{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;border:1px solid var(--line);margin:10px 0 6px}
+.meter span{display:block;height:100%;width:0;transition:width .2s}
+.status{font-weight:600;font-size:.95rem}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.bg-ok{background:var(--ok)}.bg-warn{background:var(--warn)}.bg-bad{background:var(--bad)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:var(--bg);border-radius:8px;padding:14px}
+.stat b{display:block;font-size:1.5rem}
+.stat small{color:var(--muted)}
+.notes{margin:12px 0 0;padding-left:20px}
+.notes li{margin-bottom:6px}
+.alert{border-radius:8px;padding:12px 14px;margin-top:12px}
+.alert.warn{background:var(--warn-bg)}.alert.bad{background:var(--bad-bg)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+td:last-child,th:last-child{text-align:right}
+footer{max-width:960px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.9rem}
+footer a,main a{color:var(--accent)}
+@media (max-width:560px){.row{grid-template-columns:1fr 70px 44px}.row .kg{grid-column:1/3}.row .x{grid-row:1;grid-column:3}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Shelving Load Calculator</h1>
+    <p>Add what is going on each shelf, from paint tins to tyres, and check the weight against the shelf rating and the whole bay rating in kilograms.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card" aria-labelledby="s-settings">
+    <h2 id="s-settings">1. Shelving rating</h2>
+    <div class="settings">
+      <div><label for="shelfRating">Rating per shelf (kg, UDL)</label><input id="shelfRating" type="number" min="1" value="200"></div>
+      <div><label for="bayRating">Rating per bay (kg)</label><input id="bayRating" type="number" min="1" value="800"></div>
+      <div><label for="shelfCount">Shelves per bay</label><input id="shelfCount" type="number" min="1" max="10" value="4"></div>
+      <div><label for="loadType">How the load sits</label>
+        <select id="loadType">
+          <option value="1">Spread evenly across the shelf</option>
+          <option value="0.5">Concentrated in one spot</option>
+        </select></div>
+    </div>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:.9rem">The rating is printed on the product label or listing. Defaults match a typical 2m × 2m × 0.6m boltless bay: 4 shelves at 200kg UDL each, 800kg per bay.</p>
+  </section>
+
+  <section class="card" aria-labelledby="s-shelves">
+    <h2 id="s-shelves">2. What goes on each shelf</h2>
+    <div id="shelves"></div>
+  </section>
+
+  <section class="card" aria-labelledby="s-result" aria-live="polite">
+    <h2 id="s-result">3. Result</h2>
+    <div class="summary" id="summary"></div>
+    <div id="alerts"></div>
+  </section>
+
+  <section class="card" aria-labelledby="s-weights">
+    <h2 id="s-weights">Typical item weights used</h2>
+    <table id="weightTable"><thead><tr><th>Item</th><th>Approx. weight</th></tr></thead><tbody></tbody></table>
+    <p style="color:var(--muted);font-size:.9rem;margin:10px 0 0">Estimates for full, typical items. Weigh anything unusual on bathroom scales and use “Custom item”.</p>
+  </section>
+
+  <section class="card" aria-labelledby="s-guide">
+    <h2 id="s-guide">How to read a shelf weight rating</h2>
+    <p><strong>UDL means uniformly distributed load.</strong> A 200kg UDL shelf holds 200kg only when the weight is spread across the whole shelf. The same 200kg sitting in one spot in the middle bends the shelf far more, so this calculator halves the usable rating when “Concentrated in one spot” is selected. That is a cautious rule of thumb, not a manufacturer figure.</p>
+    <ul class="notes">
+      <li><strong>Shelf rating and bay rating are separate limits.</strong> Four shelves at 200kg do not always mean 800kg for the bay; check both.</li>
+      <li><strong>Heaviest items go on the lowest shelf.</strong> It keeps the centre of gravity low and makes lifting safer.</li>
+      <li><strong>Tall units should be fixed to the wall</strong> when they stand on their own, especially in homes and garages with children.</li>
+      <li><strong>Leave headroom.</strong> Staying below about 75% of the rating allows for heavier-than-expected boxes.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>Free and open source (MIT licence). Built and maintained by <a href="https://rackingoutlet.co.uk/" rel="noopener">RackingOutlet</a>, a Manchester supplier of 800kg boltless shelving. Results are guidance only; always follow the manufacturer's rating and instructions.</p>
+</footer>
+
+<script>
+const ITEMS = [
+  ["Paint tin 5L (full)", 6.5],
+  ["Paint tin 2.5L (full)", 3.5],
+  ["Plastic storage box 45L (full, household items)", 12],
+  ["Plastic storage box 64L (full, household items)", 18],
+  ["Archive box of paper files", 15],
+  ["Box of A4 paper (5 reams)", 12.5],
+  ["Metal toolbox (loaded)", 15],
+  ["Power tool in case", 4],
+  ["Car tyre (no wheel)", 9],
+  ["Car tyre on alloy wheel", 20],
+  ["Bag of cement or plaster 25kg", 25],
+  ["Water or fuel can 20L (full)", 21],
+  ["Box of floor tiles", 20],
+  ["Moving box, medium (books)", 20],
+  ["Moving box, medium (kitchenware)", 12],
+  ["Custom item", 0]
+];
+
+const $ = s => document.querySelector(s);
+const shelvesEl = $("#shelves");
+let shelves = [];
+
+function itemOptions(sel){
+  return ITEMS.map((it,i)=>`<option value="${i}" ${i==sel?"selected":""}>${it[0]}${it[1]?` (~${it[1]}kg)`:""}</option>`).join("");
+}
+
+function ensureShelves(){
+  const n = Math.max(1, Math.min(10, parseInt($("#shelfCount").value)||1));
+  while (shelves.length < n) shelves.push([]);
+  shelves.length = n;
+}
+
+function render(){
+  ensureShelves();
+  shelvesEl.innerHTML = shelves.map((rows, s) => `
+    <div class="shelf" data-s="${s}">
+      <div class="shelf-head">
+        <h3>Shelf ${s+1}${s===0?" (top)":s===shelves.length-1?" (bottom)":""}</h3>
+        <button class="btn-ghost add" data-s="${s}" type="button">+ Add item</button>
+      </div>
+      ${rows.map((r,i)=>`
+        <div class="row ${ITEMS[r.item][1]===0?"is-custom":""}" data-s="${s}" data-i="${i}">
+          <div><label>Item</label><select class="f-item">${itemOptions(r.item)}</select></div>
+          <div><label>Qty</label><input class="f-qty" type="number" min="0" value="${r.qty}"></div>
+          <div class="kg"><label>kg each</label><input class="f-kg" type="number" min="0" step="0.1" value="${r.kg}"></div>
+          <button class="x" type="button" aria-label="Remove item">✕</button>
+          <div class="custom"><label>Custom item name (optional)</label><input class="f-name" type="text" value="${r.name||""}"></div>
+        </div>`).join("")}
+      <div class="meter"><span></span></div>
+      <div class="status"></div>
+    </div>`).join("");
+  calc();
+}
+
+function fmt(n){ return (Math.round(n*10)/10).toLocaleString("en-GB"); }
+function level(p){ return p>100?"bad":p>75?"warn":"ok"; }
+
+function calc(){
+  const shelfRating = parseFloat($("#shelfRating").value)||0;
+  const bayRating = parseFloat($("#bayRating").value)||0;
+  const factor = parseFloat($("#loadType").value);
+  const usable = shelfRating*factor;
+  const totals = shelves.map(rows => rows.reduce((a,r)=>a+(+r.qty||0)*(+r.kg||0),0));
+  const bay = totals.reduce((a,b)=>a+b,0);
+  const alerts = [];
+
+  document.querySelectorAll(".shelf").forEach((el,s)=>{
+    const t = totals[s], p = usable? t/usable*100 : 0, l = level(p);
+    const bar = el.querySelector(".meter span");
+    bar.style.width = Math.min(p,100)+"%"; bar.className = "bg-"+l;
+    el.querySelector(".status").className = "status "+l;
+    el.querySelector(".status").textContent = `${fmt(t)} kg of ${fmt(usable)} kg usable (${Math.round(p)}%)` +
+      (l==="bad"?" – overloaded":l==="warn"?" – close to the limit":" – within rating");
+    if (l==="bad") alerts.push(["bad",`Shelf ${s+1} is ${fmt(t-usable)} kg over its usable rating. Move items to another shelf or add a bay.`]);
+  });
+
+  for (let s=0; s<totals.length-1; s++){
+    if (totals[s] > totals[s+1] && totals[s] > 0){
+      alerts.push(["warn",`Shelf ${s+1} carries more than the shelf below it. Heavier items are safer lower down.`]); break;
+    }
+  }
+  const bp = bayRating? bay/bayRating*100 : 0, bl = level(bp);
+  if (bl==="bad") alerts.push(["bad",`The bay total is ${fmt(bay-bayRating)} kg over the ${fmt(bayRating)} kg bay rating, even if each shelf passes.`]);
+  const baysNeeded = bayRating ? Math.max(1, Math.ceil(bay / (bayRating*0.75))) : 1;
+
+  $("#summary").innerHTML = `
+    <div class="stat"><small>Total on bay</small><b class="${bl}">${fmt(bay)} kg</b><small>${Math.round(bp)}% of ${fmt(bayRating)} kg bay rating</small></div>
+    <div class="stat"><small>Heaviest shelf</small><b>${fmt(Math.max(0,...totals))} kg</b><small>usable limit ${fmt(usable)} kg per shelf</small></div>
+    <div class="stat"><small>Bays to stay under 75%</small><b>${bay?baysNeeded:"–"}</b><small>keeps comfortable headroom</small></div>`;
+  $("#alerts").innerHTML = alerts.map(a=>`<div class="alert ${a[0]}">${a[1]}</div>`).join("") ||
+    (bay ? `<div class="alert" style="background:var(--ok-bg)">Everything sits within the rating. Keep the heaviest items on the bottom shelf.</div>` : "");
+  try{ localStorage.setItem("slc", JSON.stringify({shelves, s:$("#shelfRating").value, b:$("#bayRating").value, n:$("#shelfCount").value, t:$("#loadType").value})); }catch(e){}
+}
+
+shelvesEl.addEventListener("click", e=>{
+  if (e.target.classList.contains("add")){ shelves[+e.target.dataset.s].push({item:0,qty:1,kg:ITEMS[0][1]}); render(); }
+  if (e.target.classList.contains("x")){ const r=e.target.closest(".row"); shelves[+r.dataset.s].splice(+r.dataset.i,1); render(); }
+});
+shelvesEl.addEventListener("input", e=>{
+  const r = e.target.closest(".row"); if(!r) return;
+  const row = shelves[+r.dataset.s][+r.dataset.i];
+  if (e.target.classList.contains("f-item")){ row.item=+e.target.value; row.kg=ITEMS[row.item][1]; render(); return; }
+  if (e.target.classList.contains("f-qty")) row.qty=e.target.value;
+  if (e.target.classList.contains("f-kg")) row.kg=e.target.value;
+  if (e.target.classList.contains("f-name")) row.name=e.target.value;
+  calc();
+});
+["#shelfRating","#bayRating","#loadType"].forEach(id=>$(id).addEventListener("input",calc));
+$("#shelfCount").addEventListener("input",render);
+
+$("#weightTable tbody").innerHTML = ITEMS.filter(i=>i[1]).map(i=>`<tr><td>${i[0]}</td><td>${i[1]} kg</td></tr>`).join("");
+
+try{
+  const saved = JSON.parse(localStorage.getItem("slc")||"null");
+  if (saved){ shelves=saved.shelves; $("#shelfRating").value=saved.s; $("#bayRating").value=saved.b; $("#shelfCount").value=saved.n; $("#loadType").value=saved.t; }
+}catch(e){}
+if (!shelves.length || shelves.every(r=>!r.length)){
+  shelves = [[{item:1,qty:6,kg:3.5}],[{item:2,qty:4,kg:12}],[{item:6,qty:2,kg:15},{item:7,qty:3,kg:4}],[{item:0,qty:10,kg:6.5},{item:8,qty:4,kg:9}]];
+}
+render();
+</script>
+</body>
+</html>
